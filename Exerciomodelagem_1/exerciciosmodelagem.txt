@@ -1,0 +1,152 @@
+
+-- TABELA DEPARTAMENTO ---
+CREATE TABLE departamento (
+	codDepartamento INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR (40) UNIQUE NOT NULL,
+    descricaoFuncional VARCHAR(80),
+    localizao LONGTEXT
+    );
+
+
+-- TABELA ESTADO --
+CREATE TABLE estado (
+    siglaEstado VARCHAR(2),
+    nome VARCHAR(30) UNIQUE NOT NULL
+    );
+
+
+-- TABELA CIDADE --
+CREATE TABLE cidade(
+    codCidade INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(50) UNIQUE NULL,
+    siglaEstado VARCHAR(2) NOT NULL
+    ); 
+
+
+-- TABELA VENDEDOR --
+CREATE TABLE vendedor (
+    codVendedor INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR (60) NOT NULL,
+    dataNascimento DATE,
+    endereco VARCHAR(60),
+    cep CHAR(8),
+    telefone VARCHAR(20),
+    codCidade int,
+    dataContratacao DATE DEFAULT (CURRENT_DATE),
+    codDepartamento INT
+    );
+
+
+-- TABELA CLIENTE -- 
+CREATE TABLE cliente (
+    codCliente INT AUTO_INCREMENT PRIMARY KEY,
+    endereco VARCHAR(60),
+    codCidade int NOT NULL,
+    telefone VARCHAR(20),
+    tipo  VARCHAR(1) CHECK (tipo in ("F", "j")),
+    dataCasdastro DATE DEFAULT (CURRENT_DATE),
+    cep CHAR(8)
+    );
+
+
+-- TABELA CLIENTEFISICO -- 
+CREATE TABLE clienteFisico (
+    codCliente int,
+    nome VARCHAR (50) NOT NULL,
+    dataNascimento DATE,
+    cpf VARCHAR(11) NOT NULL UNIQUE,
+    rg VARCHAR(8)
+    );
+
+
+-- TABELA CLIENTEJURIDICO --
+CREATE TABLE clienteJuridico (
+    codCliente int,
+    nomeFantasia VARCHAR(80) UNIQUE,
+    razaoSocial VARCHAR(80) NOT NULL UNIQUE,
+    ie VARCHAR(20) NOT NULL UNIQUE,
+    cgc VARCHAR(20) NOT NULL UNIQUE
+    );
+
+
+-- TABELA CLASSE -- 
+CREATE TABLE classe (
+    codClasse INT AUTO_INCREMENT PRIMARY KEY,
+    sigla VARCHAR (12),
+    nome VARCHAR (40) NOT NULL,
+    descricao VARCHAR (80)
+    );
+
+
+-- TABELA PRODUTO --
+CREATE TABLE produto (
+    codProduto INT AUTO_INCREMENT PRIMARY KEY,
+    descricao VARCHAR(40) NOT NULL,
+    unidadeMedida CHAR(2),
+    embalagem VARCHAR(15) DEFAULT "Fardo",
+    codCLasse int,
+    precoVenda DECIMAL (14, 2),
+    estoqueMinimo DECIMAL (14, 2)
+    );
+
+
+-- TABELA ProdutoLote --
+CREATE TABLE produtoLote (
+    codProduto int,
+    numeroLote int,
+    quantidadeAdiquirida DECIMAL(14, 2),
+    quantidadeVendida DECIMAL (14, 2),
+    precoCusto DECIMAL (14, 2),
+    dataValidade DATE
+    );
+
+
+-- TABELA VENDA --
+CREATE TABLE venda (
+    codVenda int,
+    codCliente int,
+    codVendedor int,
+    dataVenda date DEFAULT (CURRENT_DATE),
+    enderecoEntrega VARCHAR(60),
+    estatus VARCHAR(30)
+    );
+
+
+-- TABELA ItemVenda --
+CREATE TABLE itemVenda (
+    codVenda int,
+    codProduto int,
+    numeroLote int,
+    quantidade DECIMAL(14, 2) NOT NULL CHECK (quantidade > 0)
+    );
+
+
+-- TABELA FORNECEDOR --
+CREATE TABLE fornecedor (
+    codFornecedor int,
+    nomeFantasia VARCHAR(80) UNIQUE,
+    razaoSocial VARCHAR(80) NOT NULL UNIQUE,
+    ie VARCHAR(20) NOT NULL UNIQUE,
+    cgc VARCHAR(20) NOT NULL UNIQUE,
+    endereco VARCHAR(60),
+    telefone VARCHAR(20),
+    codCidade INT 
+    );
+
+
+-- TABELA PEDIDO -- 
+CREATE TABLE pedido (
+    codPedido INT AUTO_INCREMENT PRIMARY KEY,
+    dataRealizaçao DATE DEFAULT (CURRENT_DATE),
+    dataEntrega DATE,
+    codFornecedor INT,
+    valor DECIMAL (20, 2)
+    );
+
+
+-- TABELA ItemPedido -- 
+CREATE TABLE itemPedido (
+    codPedido int,
+    codProduto int,
+    quantidade DECIMAL(14, 2) NOT NULL CHECK (quantidade > 0)
+    );
