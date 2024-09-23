@@ -28,7 +28,7 @@ SELECT
     v.codVenda,
     v.dataVenda,
     ve.nome,
-    p.numeroLote,
+    pl.numeroLote,
     p.descricao
 FROM
     Venda v
@@ -36,6 +36,8 @@ NATURAL JOIN
     vendedor ve
 NATURAL JOIN
     produto p
+NATURAL JOIN
+    produtoLote pl
 WHERE
     p.descricao = 'cal';
 
@@ -56,13 +58,13 @@ WHERE
 5)
 SELECT
     f.nomeFantasia,
-    p.codPedido,
-    p.dataRealizacao,
-    p.dataEntrega
+    pe.codPedido,
+    pe.dataRealizacao,
+    pe.dataEntrega
 FROM
     fornecedor f
 NATURAL JOIN
-    produto p;
+    produto pe;
 
 6)
 SELECT
@@ -72,7 +74,7 @@ SELECT
 FROM
     produto p
 LEFT JOIN
-    venda v on p.codProduto = v.codProduto;
+    venda v on p.codProduto = v.codVenda;
 
 7)
 SELECT
